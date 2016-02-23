@@ -18,8 +18,22 @@ while 1:
   for event in pygame.event.get():
       if event.type == pygame.QUIT: sys.exit()
       if event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_k:
-              ballrect.x = ballrect.x +speed[0]
+          if event.key == pygame.K_RIGHT:
+              ballrect.x += speed[0]
+              if ballrect.x > 450:
+                  ballrect.x = 450
+          if event.key == pygame.K_LEFT:
+              ballrect.x -= speed[0]
+              if ballrect.x < 0:
+                  ballrect.x = 0
+          if event.key == pygame.K_UP:
+              ballrect.y -= speed[1]
+              if ballrect.y < 0:
+                  ballrect.y = 0
+          if event.key == pygame.K_DOWN:
+              ballrect.y += speed[1]
+              if ballrect.y > 350:
+                  ballrect.y = 350
 
   screen.fill(black)
   screen.blit(ball, ballrect)
