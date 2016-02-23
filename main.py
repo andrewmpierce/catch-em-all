@@ -13,6 +13,8 @@ screen = pygame.display.set_mode(size)
 ball = pygame.image.load("images/ball.bmp")
 ballrect = ball.get_rect()
 pygame.key.set_repeat(10,10)
+ballrect.x = 225
+ballrect.y = 345
 
 while 1:
   for event in pygame.event.get():
