@@ -11,8 +11,20 @@ white = 100, 100, 100
 screen = pygame.display.set_mode(size)
 
 player = pygame.image.load("images/player.png")
-player = pygame.transform.scale(player, (25, 25))
+player = pygame.transform.scale(player, (30, 30))
 playerrect = player.get_rect()
+def throw():
+    ball = pygame.image.load("images/ball.jpg")
+    ball = pygame.transform.scale(ball, (10,10))
+    ballrect = ball.get_rect()
+    ballrect.x = playerrect.x
+    ballrect.y = playerrect.y
+    screen.blit(ball, ballrect)
+    pygame.display.flip()
+    while ballrect.y > -20:
+        ballrect.y -= speed[0]
+
+
 pygame.key.set_repeat(10,10)
 playerrect.x = 225
 playerrect.y = 375
@@ -37,6 +49,8 @@ while 1:
               playerrect.y += speed[1]
               if playerrect.y > 380:
                   playerrect.y = 380
+          if event.key == pygame.K_SPACE:
+              throw()
 
   screen.fill(black)
   screen.blit(player, playerrect)
