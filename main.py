@@ -36,8 +36,9 @@ backdrop = pygame.transform.scale(backdrop, size)
 wild_pokemon = []
 pokemon_caught = 0
 font = pygame.font.SysFont("Times New Roman", 18)
-rattata = Sprite(50, 100, "images/rattata.jpg", 15, 15)
-wild_pokemon.append(rattata)
+rattatas = [Sprite(random.randint(10, width-10), random.randint(10, height-10), "images/rattata.jpg", 15, 15) for x in range(5)]
+for x in rattatas:
+    wild_pokemon.append(x)
 player = Sprite(225, 375, "images/player.png", 50, 50)
 balls = [Sprite(-5,-5, "images/ball.jpg", 8, 8) for x in range(10)]
 ball_num = 0
@@ -46,7 +47,6 @@ ball_num = 0
 def intersect(x1, x2, y1, y2):
     if x1 - x2 > -5 and x1 - x2 < 5:
         if y1 - y2 > -5 and y1 - y2 < 5:
-            print("CAUGHT")
             global pokemon_caught
             pokemon_caught += 1
             return True
@@ -95,7 +95,8 @@ while 1:
   screen.blit(pokemon_counter, (5,5))
 
   check_hits()
-  rattata.render()
+  for pokemon in wild_pokemon:
+      pokemon.render()
   for ball in balls:
       ball.render()
       ball.y -=1
