@@ -61,6 +61,7 @@ def check_hits():
 
 
 pygame.key.set_repeat(10,10)
+space_pressed = False
 
 while 1:
   screen.blit(backdrop, (0, 0))
@@ -83,13 +84,15 @@ while 1:
               player.y += speed[1]
               if player.y > 380:
                   player.y = 380
-          if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+          if event.key == pygame.K_SPACE and space_pressed == False:
               balls[ball_num].x = player.x
               balls[ball_num].y = player.y
               ball_num += 1
               if ball_num == 9:
                   ball_num = 0
-
+              space_pressed = True
+          if pygame.key.get_pressed()[pygame.K_SPACE] == False:
+              space_pressed = False
 
   pokemon_counter = font.render(str(pokemon_caught), 1, black)
   screen.blit(pokemon_counter, (5,5))
