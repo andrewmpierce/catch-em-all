@@ -2,6 +2,23 @@ import sys, pygame;
 from pygame.locals import *;
 #import player;
 
+
+class Player:
+        def __init__(self, xpos, ypos):
+                self.x = xpos
+                self.y = ypos
+                self.bitmap = pygame.image.load("images/player.png")
+                self.bitmap = pygame.transform.scale(self.bitmap,(25,25))
+                self.bitmap.set_colorkey((0,0,0))
+        def set_position(self, xpos, ypos):
+                self.x = xpos
+                self.y = ypos
+        def render(self):
+                screen.blit(self.bitmap, (self.x, self.y))
+
+
+
+
 pygame.init()
 
 size = width, height = 500, 400
@@ -9,10 +26,12 @@ speed = [2, 2]
 black = 0, 0, 0
 white = 100, 100, 100
 screen = pygame.display.set_mode(size)
+backdrop = pygame.image.load("images/grass.png")
+backdrop = pygame.transform.scale(backdrop, size)
 
-player = pygame.image.load("images/player.png")
-player = pygame.transform.scale(player, (30, 30))
-playerrect = player.get_rect()
+
+player = Player(225, 375)
+
 def throw():
     ball = pygame.image.load("images/ball.jpg")
     ball = pygame.transform.scale(ball, (10,10))
@@ -26,32 +45,31 @@ def throw():
 
 
 pygame.key.set_repeat(10,10)
-playerrect.x = 225
-playerrect.y = 375
 
 while 1:
+  screen.blit(backdrop, (0, 0))
   for event in pygame.event.get():
       if event.type == pygame.QUIT: sys.exit()
       if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_RIGHT:
-              playerrect.x += speed[0]
-              if playerrect.x > 480:
-                  playerrect.x = 480
+              player.x += speed[0]
+              if player.x > 480:
+                  player.x = 480
           if event.key == pygame.K_LEFT:
-              playerrect.x -= speed[0]
-              if playerrect.x < 0:
-                  playerrect.x = 0
+              player.x -= speed[0]
+              if player.x < 0:
+                  player.x = 0
           if event.key == pygame.K_UP:
-              playerrect.y -= speed[1]
-              if playerrect.y < 0:
-                  playerrect.y = 0
+              player.y -= speed[1]
+              if player.y < 0:
+                  player.y = 0
           if event.key == pygame.K_DOWN:
-              playerrect.y += speed[1]
-              if playerrect.y > 380:
-                  playerrect.y = 380
+              player.y += speed[1]
+              if player.y > 380:
+                  player.y = 380
           if event.key == pygame.K_SPACE:
               throw()
+  player.render()
+  pygame.display.update()
 
-  screen.fill(black)
-  screen.blit(player, playerrect)
-  pygame.display.flip()
+  
