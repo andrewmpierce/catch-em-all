@@ -35,7 +35,7 @@ backdrop = pygame.transform.scale(backdrop, size)
 
 wild_pokemon = []
 pokemon_caught = 0
-pokemon_counter = pygame.font.SysFont("Times New Roman", 18)
+font = pygame.font.SysFont("Times New Roman", 18)
 rattata = Sprite(50, 100, "images/rattata.jpg", 15, 15)
 wild_pokemon.append(rattata)
 player = Sprite(225, 375, "images/player.png", 50, 50)
@@ -91,8 +91,8 @@ while 1:
                   ball_num = 0
 
 
-  #pokemon_counter.render(str(pokemon_caught), 1, black)
-  #screen.blit(pokemon_counter, (5,5))
+  pokemon_counter = font.render(str(pokemon_caught), 1, black)
+  screen.blit(pokemon_counter, (5,5))
 
   check_hits()
   rattata.render()
