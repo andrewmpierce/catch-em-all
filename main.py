@@ -4,17 +4,35 @@ from pygame.locals import *;
 
 
 class Player:
-        def __init__(self, xpos, ypos):
-                self.x = xpos
-                self.y = ypos
-                self.bitmap = pygame.image.load("images/player.png")
-                self.bitmap = pygame.transform.scale(self.bitmap,(25,25))
-                self.bitmap.set_colorkey((0,0,0))
-        def set_position(self, xpos, ypos):
-                self.x = xpos
-                self.y = ypos
-        def render(self):
-                screen.blit(self.bitmap, (self.x, self.y))
+    def __init__(self, xpos, ypos):
+        self.x = xpos
+        self.y = ypos
+        self.bitmap = pygame.image.load("images/player.png")
+        self.bitmap = pygame.transform.scale(self.bitmap,(25,25))
+        self.bitmap.set_colorkey((0,0,0))
+
+    def set_position(self, xpos, ypos):
+        self.x = xpos
+        self.y = ypos
+
+    def render(self):
+        screen.blit(self.bitmap, (self.x, self.y))
+
+
+class Ball:
+    def __init__(self, xpos, ypos):
+        self.x = xpos
+        self.y = ypos
+        self.bitmap = pygame.image.load("images/ball.jpg")
+        self.bitmap = pygame.transform.scale(self.bitmap, (5,5))
+        self.bitmap.set_colorkey((0,0,0,))
+
+    def set_position(self, xpos, ypos):
+        self.x = xpos
+        self.y = ypos
+
+    def render(self):
+        screen.blit(self.bitmap, (self.x, self.y))
 
 
 
@@ -31,17 +49,8 @@ backdrop = pygame.transform.scale(backdrop, size)
 
 
 player = Player(225, 375)
-
-def throw():
-    ball = pygame.image.load("images/ball.jpg")
-    ball = pygame.transform.scale(ball, (10,10))
-    ballrect = ball.get_rect()
-    ballrect.x = playerrect.x
-    ballrect.y = playerrect.y
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
-    while ballrect.y > -20:
-        ballrect.y -= speed[0]
+balls = [Ball(-5,-5) for x in range(10)]
+ball_num = 0
 
 
 pygame.key.set_repeat(10,10)
@@ -67,9 +76,15 @@ while 1:
               player.y += speed[1]
               if player.y > 380:
                   player.y = 380
-          if event.key == pygame.K_SPACE:
-              throw()
+          if event.key_pressed() == pygame.K_SPACE:
+              balls[ball_num].x = player.x
+              balls[ball_num].y = player.y
+              ball_num += 1
+              if ball_num == 9:
+                  ball_num = 0
+
+  for ball in balls:
+      ball.render()
+      ball.y -=1
   player.render()
   pygame.display.update()
-
-  
