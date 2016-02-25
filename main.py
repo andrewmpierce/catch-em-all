@@ -1,14 +1,15 @@
 import sys, pygame;
 from pygame.locals import *;
+import random;
 #import player;
 
 
-class Player:
-    def __init__(self, xpos, ypos):
+class Sprite:
+    def __init__(self, xpos, ypos, img, l, w):
         self.x = xpos
         self.y = ypos
-        self.bitmap = pygame.image.load("images/player.png")
-        self.bitmap = pygame.transform.scale(self.bitmap,(25,25))
+        self.bitmap = pygame.image.load(img)
+        self.bitmap = pygame.transform.scale(self.bitmap,(l,w))
         self.bitmap.set_colorkey((0,0,0))
 
     def set_position(self, xpos, ypos):
@@ -18,21 +19,6 @@ class Player:
     def render(self):
         screen.blit(self.bitmap, (self.x, self.y))
 
-
-class Ball:
-    def __init__(self, xpos, ypos):
-        self.x = xpos
-        self.y = ypos
-        self.bitmap = pygame.image.load("images/ball.jpg")
-        self.bitmap = pygame.transform.scale(self.bitmap, (5,5))
-        self.bitmap.set_colorkey((0,0,0,))
-
-    def set_position(self, xpos, ypos):
-        self.x = xpos
-        self.y = ypos
-
-    def render(self):
-        screen.blit(self.bitmap, (self.x, self.y))
 
 
 
@@ -47,10 +33,31 @@ screen = pygame.display.set_mode(size)
 backdrop = pygame.image.load("images/grass.png")
 backdrop = pygame.transform.scale(backdrop, size)
 
-
-player = Player(225, 375)
-balls = [Ball(-5,-5) for x in range(10)]
+wild_pokemon = []
+pokemon_caught = 0
+pokemon_counter = pygame.font.SysFont("Times New Roman", 18)
+rattata = Sprite(50, 100, "images/rattata.jpg", 15, 15)
+wild_pokemon.append(rattata)
+player = Sprite(225, 375, "images/player.png", 50, 50)
+balls = [Sprite(-5,-5, "images/ball.jpg", 8, 8) for x in range(10)]
 ball_num = 0
+
+
+def intersect(x1, x2, y1, y2):
+    if x1 - x2 > -5 and x1 - x2 < 5:
+        if y1 - y2 > -5 and y1 - y2 < 5:
+            print("CAUGHT")
+            global pokemon_caught
+            pokemon_caught += 1
+            return True
+    return False
+
+def check_hits():
+    for pokemon in wild_pokemon:
+        for ball in balls:
+            if intersect(ball.x, pokemon.x, ball.y, pokemon.y):
+                pokemon.x = random.randint(10, width-10)
+                pokemon.y = random. randint(25, height-10)
 
 
 pygame.key.set_repeat(10,10)
@@ -76,13 +83,19 @@ while 1:
               player.y += speed[1]
               if player.y > 380:
                   player.y = 380
-          if event.key_pressed() == pygame.K_SPACE:
+          if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
               balls[ball_num].x = player.x
               balls[ball_num].y = player.y
               ball_num += 1
               if ball_num == 9:
                   ball_num = 0
 
+
+  #pokemon_counter.render(str(pokemon_caught), 1, black)
+  #screen.blit(pokemon_counter, (5,5))
+
+  check_hits()
+  rattata.render()
   for ball in balls:
       ball.render()
       ball.y -=1
