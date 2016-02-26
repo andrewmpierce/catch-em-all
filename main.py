@@ -1,7 +1,6 @@
 import sys, pygame;
 from pygame.locals import *;
 import random;
-#import player;
 
 
 class Sprite:
@@ -21,24 +20,26 @@ class Sprite:
 
 
 
-
-
 pygame.init()
 
-size = width, height = 500, 400
+size = width, height = 400, 500
 speed = [2, 2]
 black = 0, 0, 0
 white = 100, 100, 100
 screen = pygame.display.set_mode(size)
 backdrop = pygame.image.load("images/grass.png")
 backdrop = pygame.transform.scale(backdrop, size)
-
-wild_pokemon = []
 pokemon_caught = 0
+
+def set_wild_pokemon(amount = 10):
+    wild_pokemon = []
+    rattatas = [Sprite(random.randint(10, width-10), random.randint(10, height-10), "images/rattata.jpg", 15, 15) for x in range(amount)]
+    for x in rattatas:
+        wild_pokemon.append(x)
+    return wild_pokemon
+
+
 font = pygame.font.SysFont("Times New Roman", 18)
-rattatas = [Sprite(random.randint(10, width-10), random.randint(10, height-10), "images/rattata.jpg", 15, 15) for x in range(5)]
-for x in rattatas:
-    wild_pokemon.append(x)
 player = Sprite(225, 375, "images/player.png", 50, 50)
 balls = [Sprite(-5,-5, "images/ball.jpg", 8, 8) for x in range(10)]
 ball_num = 0
@@ -62,7 +63,7 @@ def check_hits():
 
 pygame.key.set_repeat(10,10)
 space_pressed = False
-
+wild_pokemon = set_wild_pokemon()
 while 1:
   screen.blit(backdrop, (0, 0))
   for event in pygame.event.get():
