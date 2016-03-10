@@ -22,7 +22,7 @@ class Sprite:
 
 pygame.init()
 
-size = width, height = 400, 500
+size = width, height = 600, 500
 speed = [2, 2]
 black = 0, 0, 0
 white = 100, 100, 100
@@ -40,7 +40,7 @@ def set_wild_pokemon(amount = 10):
 
 
 font = pygame.font.SysFont("Times New Roman", 18)
-player = Sprite(225, 375, "images/player.png", 50, 50)
+player = Sprite(225, 375, "images/player.png", 30, 30)
 balls = [Sprite(-5,-5, "images/ball.jpg", 8, 8) for x in range(10)]
 ball_num = 0
 
@@ -83,8 +83,8 @@ while 1:
                   player.y = 0
           if event.key == pygame.K_DOWN:
               player.y += speed[1]
-              if player.y > 380:
-                  player.y = 380
+              if player.y > 480:
+                  player.y = 480
           if event.key == pygame.K_SPACE and space_pressed == False:
               balls[ball_num].x = player.x
               balls[ball_num].y = player.y
