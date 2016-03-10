@@ -95,7 +95,7 @@ while 1:
           if pygame.key.get_pressed()[pygame.K_SPACE] == False:
               space_pressed = False
 
-  pokemon_counter = font.render(str(pokemon_caught), 1, black)
+  pokemon_counter = font.render(("Pokemon Caught: " + str(pokemon_caught)), 1, black)
   screen.blit(pokemon_counter, (5,5))
 
   check_hits()
