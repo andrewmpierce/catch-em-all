@@ -1,7 +1,7 @@
 import sys, pygame;
 from pygame.locals import *;
 import random;
-
+import time;
 
 class Sprite:
     def __init__(self, xpos, ypos, img, l, w):
@@ -64,6 +64,7 @@ def check_hits():
 pygame.key.set_repeat(10,10)
 space_pressed = False
 wild_pokemon = set_wild_pokemon()
+start_time = time.time()
 while 1:
   screen.blit(backdrop, (0, 0))
   for event in pygame.event.get():
@@ -95,8 +96,11 @@ while 1:
           if pygame.key.get_pressed()[pygame.K_SPACE] == False:
               space_pressed = False
 
+  elapsed_time = time.time() - start_time
   pokemon_counter = font.render(("Pokemon Caught: " + str(pokemon_caught)), 1, black)
+  timer = font.render(str(elapsed_time), 1, black)
   screen.blit(pokemon_counter, (5,5))
+  screen.blit(timer, (5,20))
 
   check_hits()
   for pokemon in wild_pokemon:
