@@ -97,6 +97,7 @@ while 1:
               space_pressed = False
 
   elapsed_time = time.time() - start_time
+  elapsed_time = round(elapsed_time, 2)
   pokemon_counter = font.render(("Pokemon Caught: " + str(pokemon_caught)), 1, black)
   timer = font.render(str(elapsed_time), 1, black)
   screen.blit(pokemon_counter, (5,5))
